@@ -45,6 +45,18 @@
     const userEmail = '{{ userEmail }}';
   </script>
   {% endif %}
+  <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
+  <script type="text/javascript" src="{{ url_for('static', filename='lib/cookieconsent.min.js') }}"></script>
+  <script type="text/javascript">
+    window.cookieconsent_options = {
+      "message": "We use cookies to track how many people from which countries use mei-friend. EXPLAIN ...",
+      "dismiss": "Accept",
+      "learnMore": "More info",
+      "link": "https://iwk.mdw.ac.at/impressum/"
+      "theme": "dark-bottom"
+    };
+  </script>
+  <!-- End Cookie Consent plugin -->
   <script src="{{ url_for('static', filename='CodeMirror/lib/codemirror.js') }}"></script>
   <link href="{{ url_for('static', filename='CodeMirror/lib/codemirror.css') }}" rel="stylesheet" />
   <script src="{{ url_for('static', filename='CodeMirror/mode/xml/xml.js') }}"></script>
