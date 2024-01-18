@@ -10,9 +10,9 @@ export function buildLanguageSelection() {
     .sort()
     .forEach((l) => {
       const row = document.createElement('tr');
-      //     row.innerHTML = `<td id='lang_${l}_code'>${l}</td>`;
+      row.innerHTML = `<td id='lang_${l}_code'>${l}</td>`;
       row.innerHTML += `<td id='lang_${l}_native'>${supportedLanguages[l][l]}</td>`;
-      //     row.innerHTML += `<td id='lang_${l}_selected'/>`;
+      row.innerHTML += `<td id='lang_${l}_selected'/>`;
       row.id = 'row_' + l;
       row.addEventListener('click', onClickLanguageSelection);
       langTable.insertAdjacentElement('beforeend', row);
