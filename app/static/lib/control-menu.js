@@ -1,3 +1,6 @@
+// Creates and assembles panels for
+// editor, facsimile viewer, and control bars
+
 import * as icon from './../css/icons.js';
 import { fontList, platform } from './defaults.js';
 import { svgNameSpace } from './dom-utils.js';
@@ -5,7 +8,14 @@ import { translator } from './main.js';
 import { createPageRangeSelector } from './page-range-selector.js';
 import { choiceOptions } from './markup.js';
 
-// constructs the div structure of #notation parent
+/**
+ * Constructs the div structure of #notation parent
+ * including Verovio SVG and controls,
+ * facsimile image and controls,
+ *
+ * @param {object} parentElement
+ * @param {number} scale
+ */
 export function createNotationDiv(parentElement, scale) {
   // container for Verovio
   let verovioContainer = document.createElement('div');
@@ -34,6 +44,7 @@ export function createNotationDiv(parentElement, scale) {
   let facsimilePanel = document.createElement('div');
   facsimilePanel.id = 'facsimile-panel';
 
+  // Create container element for Facsimile Message Panel
   let facsimileMessagePanel = document.createElement('div');
   facsimileMessagePanel.id = 'facsimileMessagePanel';
 
@@ -62,6 +73,14 @@ export function createNotationDiv(parentElement, scale) {
   if (resizer) resizer.innerHTML = icon.kebab;
 } // createNotationDiv()
 
+/**
+ * Create a Notation Control Bar
+ * with navigation tools and
+ * spinning Verovio icon
+ *
+ * @param {object} parentElement
+ * @param {number} scale
+ */
 export function createNotationControlBar(parentElement, scale) {
   // Create control form
   let vrvCtrlMenu = document.createElement('div');
@@ -400,6 +419,10 @@ export function createNotationControlBar(parentElement, scale) {
   parentElement.appendChild(vrvCtrlMenu);
 } // createNotationControlBar()
 
+/**
+ * Create facsimile control bar
+ * @param {object} parentElement
+ */
 export function createFacsimileControlBar(parentElement) {
   // Create control form
   let facsCtrlBar = document.createElement('div');
@@ -407,7 +430,7 @@ export function createFacsimileControlBar(parentElement) {
   facsCtrlBar.id = 'facsimileControlBar';
   parentElement.appendChild(facsCtrlBar);
 
-  // facsimile icon (octicon log)
+  // facsimile icon (octicon: log)
   let facsimileIcon = document.createElement('div');
   facsimileIcon.innerHTML = icon.log;
   facsimileIcon.id = 'facsimileIcon';
@@ -533,6 +556,10 @@ export function createFacsimileControlBar(parentElement) {
   facsCtrlBar.appendChild(facsimileCloseButton);
 } // createFacsimileControlBar()
 
+/**
+ * Show controls for PDF Preview display
+ * @param {boolean} show
+ */
 export function showPdfButtons(show = true) {
   document.getElementById('pageRangeSelectorDiv').style.display = show ? '' : 'none';
   document.getElementById('pdfControlsDiv').style.display = show ? '' : 'none';
@@ -588,6 +615,11 @@ export function setControlMenuState(state) {
   });
 } // setControlMenuState()
 
+/**
+ * Sets checkbox to provided value
+ * @param {*} id
+ * @param {boolean} state
+ */
 export function setCheckbox(id, state) {
   let el = document.getElementById(id);
   if (el) {
@@ -596,6 +628,12 @@ export function setCheckbox(id, state) {
   }
 } // setCheckbox()
 
+/**
+ *
+ * @param {object} v viewer object
+ * @param {object} cm CodeMirror object
+ * @param {event} ev event
+ */
 export function manualCurrentPage(v, cm, ev) {
   console.debug('manualCurrentPage: ', ev);
   ev.stopPropagation();
@@ -607,6 +645,11 @@ export function manualCurrentPage(v, cm, ev) {
   }
 } // manualCurrentPage()
 
+/**
+ * Populates the listbox for Verovio page/system break options
+ * @param {object} tkAvailableOptions
+ * @param {string} defaultValue
+ */
 export function setBreaksOptions(tkAvailableOptions, defaultValue = 'auto') {
   if (defaultValue === '') defaultValue = 'auto';
   let breaksEl = document.getElementById('breaksSelect');
@@ -628,6 +671,17 @@ export function setBreaksOptions(tkAvailableOptions, defaultValue = 'auto') {
   }
 } // setBreaksOptions()
 
+/**
+ * Handle Verovio option --breaks-smart-sb
+ * with speedMode
+ * @param {boolean} speedMode
+ *
+ * Checks options for speed mode and smart mode.
+ * If speed mode is checked, it will disable smart mode
+ * in dropdown menu.
+ * If smart mode is selected, it will
+ * uncheck speed mode box.
+ */
 export function handleSmartBreaksOption(speedMode) {
   let options = Array.from(document.getElementById('breaksSelect').options);
   options.forEach((o) => {
@@ -643,9 +697,9 @@ export function handleSmartBreaksOption(speedMode) {
 } // handleSmartBreaksOption()
 
 /**
- * Adds the options for choice to the choiceSelect in the 
+ * Adds the options for choice to the choiceSelect in the
  * notation control bar.
- * @param {string} active value of currently active selection 
+ * @param {string} active value of currently active selection
  */
 export function setChoiceOptions(active) {
   let choiceSelect = document.getElementById('choiceSelect');
@@ -660,9 +714,16 @@ export function setChoiceOptions(active) {
     choiceSelect[key].id = el.id;
     choiceSelect[key].dataset.prop = el.prop;
   });
-}
+} // setChoiceOptions()
 
-// checks xmlDoc for section, ending, lem, rdg elements for quick navigation
+/**
+ * Checks xmlDoc for section, ending, lem, and rdg elements for quick navigation.
+ * Populates sectionSelect dropdown menu in paginationControls with assigned xml:ids.
+ * Nests sections in list with pipe+space: '| '.
+ *
+ * @param {object} xmlDoc
+ * @returns {sections}
+ */
 export function generateSectionSelect(xmlDoc) {
   let selector = 'section,ending,lem,rdg';
   let sections = [
@@ -686,6 +747,11 @@ export function generateSectionSelect(xmlDoc) {
   return sections;
 } // generateSectionSelect()
 
+/**
+ * Performs keymappping between Windows and Mac special characters and
+ * provides appropriate icons for shortcut keys in dropdown menus.
+ * @param {object} root HTML document
+ */
 export function addModifyerKeys(root) {
   let modifierKeys = {
     altKey: {
@@ -703,7 +769,8 @@ export function addModifyerKeys(root) {
       text: 'Alt',
       description: 'Alt key',
     }, // ALT
-    cmd3Key: { // ALT / CMD on Mac
+    cmd3Key: {
+      // ALT / CMD on Mac
       symbol: '&#8997;',
       text: 'Alt',
       description: 'Alt key',

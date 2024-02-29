@@ -1,3 +1,5 @@
+//
+
 import * as att from './attribute-classes.js';
 import * as dutils from './dom-utils.js';
 import * as prs from './page-range-selector.js';
@@ -36,6 +38,10 @@ import {
 } from './defaults.js';
 import * as icon from './../css/icons.js';
 
+/**
+ * @class
+ * This is Viewer class
+ */
 export default class Viewer {
   constructor(vrvWorker, spdWorker) {
     this.vrvWorker = vrvWorker;
@@ -100,7 +106,13 @@ export default class Viewer {
     }
   } // updateAll()
 
-  // helper function to send a message to the worker
+  /**
+   *
+   * @param {*} xmlId
+   * @param {*} p
+   * @param {*} computePageBreaks
+   * helper function to send a message to the worker
+   */
   postUpdateAllMessage(xmlId, p, computePageBreaks) {
     let message = {
       cmd: 'updateAll',
@@ -114,7 +126,13 @@ export default class Viewer {
     this.busy();
     this.vrvWorker.postMessage(message);
   } // postUpdateAllMessage()
-
+  /**
+   *
+   * @param {*} cm
+   * @param {boolean} setCursorToPageBeg
+   * @param {boolean} setFocusToVerovioPane
+   * @param {boolean} withMidiSeek
+   */
   updateData(cm, setCursorToPageBeg = true, setFocusToVerovioPane = true, withMidiSeek = false) {
     let message = {
       breaks: this.breaksSelect.value,

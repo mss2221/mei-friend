@@ -1,6 +1,10 @@
 /**
  * Applies language packs to GUI elements
+ * Language packs are in ./app/static/lang/ directory
+ * Filename format: lang.xx.js where xx is language code (? ISO 639 ?) 
+ * 
  * Language packs need to be listed in supportedLanguages in defaults.js
+ * 
  */
 import { isSafari } from './defaults.js';
 import * as l from '../lang/lang.en.js'; // default language
@@ -9,7 +13,8 @@ import { drawRightFooter, updateStatusBar } from './main.js';
 import Viewer from './viewer.js';
 
 /**
- * Translator class
+ * Creates defaultTranslator class
+ * @class
  */
 export default class Translator {
   constructor() {
@@ -26,7 +31,7 @@ export default class Translator {
   changeLanguage(languageCode) {
     // update language selection
     translateLanguageSelection(languageCode);
-    // change language, only if not default and different from current lang pack
+    // change language, only if not default and not the current lang pack
     if (languageCode !== this.defaultLangCode && languageCode !== this.langCode) {
       const languagePack = '../lang/lang.' + languageCode + '.js';
       console.log('Loading language pack: ', languagePack);

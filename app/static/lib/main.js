@@ -2146,6 +2146,7 @@ function addEventListeners(v, cm) {
   });
 
   // speed mode checkbox
+  // updates display of speedmode box on midiPlaybackCrontolBar
   document.getElementById('speedCheckbox').addEventListener('change', (ev) => {
     v.speedMode = ev.target.checked;
     if (storage && storage.supported) storage.speed = v.speedMode;

@@ -1,9 +1,27 @@
+// Module Def:
+// Activated with "Open URL" modal popup
+// Data from sampleEncodings array
+// Populates Composer and Encodings drop down menus
+// Exports openUrl() & openUrlCancel()
+//
+
 import { calcSizeOfContainer } from './resizer.js';
 import { sampleEncodings, samp, translator } from './main.js';
 
 function fillInSampleUrl(e) {
   document.getElementById('openUrlInput').value = e.target.value;
 }
+
+/**
+ *Populate list of encodings based on composerSelector value
+ * @param {event} e
+ */
+
+//
+// These fields are nested under "Public Repertoire"
+//
+// starting with a blank encoding selector
+// Set dummyOpt attributes to ''
 
 function fillInComposerEncodings(e) {
   let fc = document.querySelector('.openUrlOverlay');
@@ -37,6 +55,10 @@ function fillInComposerEncodings(e) {
   }
 }
 
+/**
+ *
+ * @param {boolean} showSamples
+ */
 export function openUrl(showSamples = false) {
   let sz = calcSizeOfContainer();
   let fc = document.querySelector('.openUrlOverlay');
@@ -93,9 +115,13 @@ export function openUrl(showSamples = false) {
   encodingSelector.addEventListener('change', fillInSampleUrl);
 }
 
+/**
+ * user has cancelled the "Open URL" action
+ * => hide Open URL interface, show file status display [?? fileStatusElement not used]
+ */
 export function openUrlCancel() {
   // user has cancelled the "Open URL" action
-  // => hide Open URL interface, show file status display
+  // => hide Open URL interface, show file status display [?]
   let fileStatusElement = document.querySelector('.fileStatus');
   let openUrlElement = document.querySelector('.openUrlOverlay');
   // show file status, hide openUrl

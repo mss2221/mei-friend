@@ -2,6 +2,7 @@ import { supportedLanguages } from './defaults.js';
 import { translator } from './main.js';
 
 /**
+ * Retrieves supportedLanguages from default.js and
  * Builds html structure for language selection globe icon
  */
 export function buildLanguageSelection() {
@@ -24,7 +25,7 @@ export function buildLanguageSelection() {
  * Updates language selection menu state
  * AND
  * selectLanguage select in mei-friend settings
- * @param {*} selected
+ * @param {string} selected
  */
 export function translateLanguageSelection(selected = 'en') {
   Object.keys(supportedLanguages).forEach((l) => {
@@ -38,7 +39,10 @@ export function translateLanguageSelection(selected = 'en') {
   if (selectedLangRow) {
     selectedLangRow.classList.add('selectedLang');
   }
-
+  /**
+   * translates the language option labels into the selectLanguage
+   * using data in defaults.js
+   */
   // translate selectLanguage select in mei-friend settings menu
   const langSettings = document.getElementById('selectLanguage');
   if (langSettings) {
